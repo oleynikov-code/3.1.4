@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/users")
 public class UsersControllers {
 
     private final UserService userService;
@@ -17,19 +16,19 @@ public class UsersControllers {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/admin/getAllUsers")
     public String getAllUser(Model model){
         model.addAttribute("allUsers",userService.getAllUsers());
         return "getAllUsers";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public String getUserById(@PathVariable("id") long id, Model model){
         model.addAttribute("user_by_id",userService.getUser(id));
         return "byId";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/admin/new")
     public String newUser(Model model){
         model.addAttribute("newUser", new User());
         return "new";
@@ -40,17 +39,17 @@ public class UsersControllers {
         userService.saveUser(user);
         return "redirect:/users";
     }
-    @GetMapping("/{id}/edit")
+    @GetMapping("/admin/{id}/edit")
     public String editUser(Model model, @PathVariable("id") long id){
         model.addAttribute("user",userService.getUser(id));
         return "edit";
     }
-    @PatchMapping("/{id}")
+    @PatchMapping("/admin/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") long id){
         userService.updateUser(user, id);
         return "redirect:/users";
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public  String deleteUser(@PathVariable("id") long id ){
         userService.deleteUser(id);
         return "redirect:/users";

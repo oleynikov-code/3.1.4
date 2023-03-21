@@ -16,12 +16,12 @@
   <div th:each ="user : ${allUsers}">
     <tr><td><div th:text="${user.getId}"></div></td><td><div th:text="${user.getName}"></div></td>
       <td><div th:text="${user.getLastName}"></div></td><td><div th:text="${user.getEmail}"></div></td>
-      <td><div><a th:href="@{/users/{id}(id = ${user.getId()})}">Перейти  </a></div></td><tr>
+      <td><div><a th:href="@{/admin/{id}(id = ${user.getId()})}">Перейти  </a></div></td><tr>
   </div>
 </table>
 <br/>
 <hr/>
-<form th:action="@{/users/new}">
+<form th:action="@{/admin/new}">
   <input type="submit" value="Создать"/>
 </form>
 </body>
