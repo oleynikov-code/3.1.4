@@ -1,0 +1,28 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<table border ="1">
+  <caption>Таблица пользователей</caption>
+  <tr>
+    <th>ID</th>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Почта</th>
+    <th>Страница пользователя</th>
+  </tr>
+  <div th:each ="user : ${allUsers}">
+    <tr><td><div th:text="${user.getId}"></div></td><td><div th:text="${user.getName}"></div></td>
+      <td><div th:text="${user.getLastName}"></div></td><td><div th:text="${user.getEmail}"></div></td>
+      <td><div><a th:href="@{/users/{id}(id = ${user.getId()})}">Перейти  </a></div></td><tr>
+  </div>
+</table>
+<br/>
+<hr/>
+<form th:action="@{/users/new}">
+  <input type="submit" value="Создать"/>
+</form>
+</body>
+</html>
