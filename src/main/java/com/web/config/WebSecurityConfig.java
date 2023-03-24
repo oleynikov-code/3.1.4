@@ -1,51 +1,53 @@
 package com.web.config;
 
+import com.web.service.UserService;
+import com.web.service.UserServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
-
+    private UserServiceImp userServiceImp;
     public WebSecurityConfig(SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
     }
 
-    @Override
+    @Autowired
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
+    }
+
+@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/index").permitAll()
-                .anyRequest().authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
-                .and() 
-                .formLogin().successHandler(successUserHandler)
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/index","/").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+//                .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
     }
 
-    // аутентификация inMemory
     @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public DaoAuthenticationProvider daoAuthenticationProvider(){
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        daoAuthenticationProvider.setUserDetailsService(userServiceImp);
+        return daoAuthenticationProvider;
     }
 }

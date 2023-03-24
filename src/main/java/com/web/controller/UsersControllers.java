@@ -34,12 +34,12 @@ public class UsersControllers {
         return "new";
     }
 
-    @PostMapping()
+    @PostMapping("/admin")
     public String create(@ModelAttribute("user") User user){
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/admin/getAllUsers";
     }
-    @GetMapping("/admin/{id}/edit")
+    @GetMapping("/admin/edit/{id}")
     public String editUser(Model model, @PathVariable("id") long id){
         model.addAttribute("user",userService.getUser(id));
         return "edit";
@@ -47,11 +47,11 @@ public class UsersControllers {
     @PatchMapping("/admin/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") long id){
         userService.updateUser(user, id);
-        return "redirect:/users";
+        return "redirect:/admin/getAllUsers";
     }
-    @DeleteMapping("/admin/{id}")
-    public  String deleteUser(@PathVariable("id") long id ){
+    @DeleteMapping("/admin/delete/{id}")
+    public String deleteUser(@PathVariable("id") long id ){
         userService.deleteUser(id);
-        return "redirect:/users";
+        return "redirect:/admin/getAllUsers";
     }
 }

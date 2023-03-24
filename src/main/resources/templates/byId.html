@@ -14,15 +14,9 @@
   </tr>
   <div th:each ="user : ${user_by_id}">
     <tr><td><div th:text="${user.getId}"></div></td><td><div th:text="${user.getName}"></div></td><td>
-      <div th:text="${user.getLastName}"></div></td><td><div th:text="${user.getEmail}"></div></td><tr>
+      <div th:text="${user.getLastName}"></div></td><td><div th:text="${user.getAge}"></div></td>
+      <td><div th:text="${user.getEmail}"></div></td><tr>
   </div>
 </table>
-<br/>
-<form th:each ="user : ${user_by_id}" th:action="@{/users/{id}/edit(id=${user.getId()})}">
-  <input type="submit" value="Изменить"/>
-</form>
-<form th:each ="user : ${user_by_id}" th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
-  <input type="submit" value="Удалить"/>
-</form>
 </body>
 </html>
