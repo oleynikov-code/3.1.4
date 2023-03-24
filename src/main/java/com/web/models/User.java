@@ -33,8 +33,7 @@ private String email;
 @Size(min = 1, message = "Не меньше 5 знаков")
 private String password;
 
-@Transient
-@ManyToMany(fetch = FetchType.LAZY)
+@ManyToMany()
 @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn (name = "user_id"),
         inverseJoinColumns = @JoinColumn (name = "role_id"))

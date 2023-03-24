@@ -3,7 +3,6 @@ package com.web.models;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -48,4 +47,8 @@ public String getAuthority() {
     return getName();
 }
 
+@Override
+public String toString() {
+    return name;
+}
 }

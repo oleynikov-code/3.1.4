@@ -14,4 +14,5 @@ void saveUser(User user);
 void updateUser(User user, long id);
 void deleteUser(long id);
 UserDetails loadUserByUsername(String username);
+User getUserByEmail(String email);
 }

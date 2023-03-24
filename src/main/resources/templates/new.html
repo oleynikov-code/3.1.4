@@ -13,9 +13,19 @@
     <label for="lastName">Введити фамилию: </label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
     <br/>
+    <label for="age">Введите возраст:  </label>
+    <input type="text" th:field="*{age}" id="age"/>
+    <br/>
     <label for="email">Введите почту: </label>
     <input type="text" th:field="*{email}" id="email"/>
     <br/>
+    <label for="pass">Введите пароль: </label>
+    <input type="text" th:field="*{password}" id="pass"/>
+    <br/>
+    <select th:field="*{roles}">
+        <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
+    </select><br><br>
+
     <input type="submit" value="Создать!"/>
 </form>
 

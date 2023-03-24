@@ -12,19 +12,28 @@
     <th>Фамилия</th>
     <th>Возраст</th>
     <th>Почта</th>
-    <th>Страница пользователя</th>
+    <th>Роль</th>
+    <th>Изменить</th>
+    <th>Удалить</th>
+    <th>Страница</th>
   </tr>
   <div th:each ="user : ${allUsers}">
     <tr><td><div th:text="${user.getId}"></div></td><td><div th:text="${user.getName}"></div></td>
       <td><div th:text="${user.getLastName}"></div></td><td><div th:text="${user.getAge}"></div></td>
-      <td><div th:text="${user.getEmail}"></div></td>
-      <td><div><a th:href="@{/user/{id}(id = ${user.getId()})}">Перейти  </a></div></td><tr>
+      <td><div th:text="${user.getEmail}"></div></td><td><div th:text="${user.getRoles()}"></div></td>
+      <td><div><form th:method="GET" th:action="@{/admin/edit/{id}(id = ${user.getId()})}"><input type="submit" value="Изменить"/>  </form></div></td>
+      <td><div><form th:method="DELETE" th:action="@{/admin/delete/{id}(id = ${user.getId()})}"><input type="submit" value="Удалить"/>  </form></div></td>
+      <td><div><form th:method="GET" th:action="@{/admin/findUser/{id}(id = ${user.getId()})}"><input type="submit" value="Перейти"/>  </form></div></td>
+    <tr>
   </div>
 </table>
 <br/>
 <hr/>
 <form th:action="@{/admin/new}">
   <input type="submit" value="Создать"/>
+</form>
+<form th:action="@{/logout}">
+  <input type="submit" value="Выйти"/>
 </form>
 </body>
 </html>
