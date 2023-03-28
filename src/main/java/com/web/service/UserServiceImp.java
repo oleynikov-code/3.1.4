@@ -3,6 +3,8 @@ package com.web.service;
 import com.web.models.User;
 import com.web.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,6 @@ import java.util.Optional;
 
 
 @Service
-@Transactional(readOnly = true)
 public class UserServiceImp implements UserService {
     private final UserRepo userRepo;
 
