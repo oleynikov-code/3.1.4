@@ -5,6 +5,8 @@ import com.web.models.User;
 import com.web.repositories.RoleRepo;
 import com.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ public class AdminsControllers {
 
     private final UserService userService;
     private final RoleRepo roleRepo;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public AdminsControllers(UserService userService, RoleRepo roleRepo) {
@@ -51,9 +54,8 @@ public class AdminsControllers {
 
     @GetMapping("/edit/{id}")
     public String editUser(Model model, @PathVariable("id") long id){
-        List<Role> roles = roleRepo.findAll();
         model.addAttribute("user",userService.getUser(id));
-        model.addAttribute("roles", roles);
+        model.addAttribute("roles", roleRepo.findAll());
         return "edit";
     }
 

@@ -41,7 +41,7 @@ private Set<Role> roles;
 
 public User() {}
 
-public User(String firstName, String lastName, String email, byte age, String password) {
+public User(String firstName, String lastName, String email, byte age, String password, Role role) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;

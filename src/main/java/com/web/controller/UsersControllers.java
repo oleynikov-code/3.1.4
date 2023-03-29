@@ -1,6 +1,5 @@
 package com.web.controller;
 
-import com.web.models.User;
 import com.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,8 +20,7 @@ public class UsersControllers {
     @GetMapping()
     public String getThisUser(Authentication authentication, Model model){
         String userName = authentication.getName();
-        User user = userService.getUserByEmail(userName);
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUserByEmail(userName));
         return "thisUser";
     }
 

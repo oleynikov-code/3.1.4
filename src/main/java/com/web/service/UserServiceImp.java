@@ -3,10 +3,10 @@ package com.web.service;
 import com.web.models.User;
 import com.web.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImp implements UserService {
     private final UserRepo userRepo;
-
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     public UserServiceImp(UserRepo userRepo){
         this.userRepo = userRepo;
@@ -37,6 +37,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
     }
 
@@ -44,6 +45,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     public void updateUser(User user, long id) {
         user.setId(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
     }
 
