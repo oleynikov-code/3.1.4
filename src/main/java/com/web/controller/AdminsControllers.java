@@ -5,8 +5,6 @@ import com.web.models.User;
 import com.web.repositories.RoleRepo;
 import com.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +16,6 @@ public class AdminsControllers {
 
     private final UserService userService;
     private final RoleRepo roleRepo;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public AdminsControllers(UserService userService, RoleRepo roleRepo) {
