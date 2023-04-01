@@ -5,8 +5,8 @@ import com.web.models.User;
 import com.web.repositories.RoleRepo;
 import com.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,7 @@ public class AdminsControllers {
 
     private final UserService userService;
     private final RoleRepo roleRepo;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public AdminsControllers(UserService userService, RoleRepo roleRepo) {
@@ -25,13 +26,9 @@ public class AdminsControllers {
         this.roleRepo = roleRepo;
     }
 
-    @GetMapping()
+    @GetMapping("/getAllUsers")
     public String getAllUser(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("allUsers",userService.getAllUsers());
-        model.addAttribute("curentUser",userService.getUserByEmail(authentication.getName()));
-        model.addAttribute("allRoles", roleRepo.findAll());
-        model.addAttribute("newUser", new User());
         return "getAllUsers";
     }
 
@@ -52,7 +49,7 @@ public class AdminsControllers {
     @PostMapping()
     public String create(@ModelAttribute("user") User user){
         userService.saveUser(user);
-        return "redirect:/admin";
+        return "redirect:/admin/getAllUsers";
     }
 
     @GetMapping("/edit/{id}")
@@ -65,12 +62,12 @@ public class AdminsControllers {
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") long id){
         userService.updateUser(user, id);
-        return "redirect:/admin";
+        return "redirect:/admin/getAllUsers";
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteUser(@PathVariable("id") long id ){
         userService.deleteUser(id);
-        return "redirect:/admin";
+        return "redirect:/admin/getAllUsers";
     }
 }
