@@ -11,9 +11,9 @@
   <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
     <div class="container-fluid me-auto">
                 <span class="navbar-brand">
-                    <strong th:utext="${curentUser.getEmail()}"></strong>
+                    <strong th:utext="${user.getEmail()}"></strong>
                      with roles:
-                    <span  th:each="role : ${curentUser.getRoles()}">
+                    <span  th:each="role : ${user.getRoles()}">
                         <a th:text="${role.toString()}">
 
                         </a>
@@ -320,8 +320,8 @@
                         <select class="custom-select" id="new-userRole"
                                 name="newUser-roles"
                                 multiple="multiple" size="2" th:field="*{newUser.roles}">
-                          <option th:each="s : ${allRoles}"
-                                  th:text="${s.toString()}" th:value="${s.id}"
+                          <option th:each="roles : ${allRoles}"
+                                  th:text="${roles.toString()}" th:value="${roles.id}"
                           >
                           </option>
                         </select>
