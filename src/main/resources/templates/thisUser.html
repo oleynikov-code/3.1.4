@@ -1,29 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User table</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <!--navbar-->
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+            <div class="container-fluid me-auto">
+                <span class="navbar-brand">
+                    <strong th:utext="${user.getEmail()}"></strong>
+                     with roles:
+                    <span  th:each="role : ${user.getRoles()}">
+                        <a th:text="${role.toString()}">
+
+                        </a>
+
+                        </span>
+                </span>
+            </div>
+            <span class="nav-item ms-auto">
+    <form th:action="@{/logout}" method="POST">
+        <button type="submit" class="btn btn-dark">Logout</button>
+    </form>
+      </span>
+        </nav>
+
+    </header>
 </head>
 <body>
+<!--sidebar+tabs-->
+<div class="container-fluid p-0">
+    <div class="row vh-100">
+        <div class="col-2 pr-0 pt-3">
+            <ul class="list-group list-group-flush">
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:text="Admin" th:href="@{/admin}"
+                   class="list-group-item list-group-item-action"></a>
+                <a sec:authorize="hasRole('ROLE_USER')" th:text="User" th:href="@{/user}"
+                   class="list-group-item list-group-item-action active"></a>
+            </ul>
+        </div>
 
-<table border ="1">
-    <caption>О пользователе</caption>
-    <tr>
-        <th>ID</th>
-        <th>Имя</th>
-        <th>Фамилия</th>
-        <th>Возраст</th>
-        <th>Почта</th>
-        <th>Роль</th>
-    </tr>
-    <div th:each ="user : ${user}">
-        <tr><td><div th:text="${user.getId}"></div></td><td><div th:text="${user.getName}"></div></td>
-            <td><div th:text="${user.getLastName}"></div></td><td><div th:text="${user.getAge}"></div></td>
-            <td><div th:text="${user.getEmail}"></div></td><td><div th:text="${user.getRoles()}"></div></td>
+        <div class="col-10 m-0 bg-light ">
+            <div class="tab-content container-fluid">
+                <div class="tab-pane fade show active" id="admin-panel" role="rabpanel"
+                     aria-labelledby="admin-panel-tab">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 ">
+                        <h1>User information page</h1>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="adminTable">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>About user</h4>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped" id="usersTable">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td th:utext="${user.id}"></td>
+                                            <td th:utext="${user.name}"></td>
+                                            <td th:utext="${user.lastName}"></td>
+                                            <td th:utext="${user.age}"></td>
+                                            <td th:utext="${user.email}"></td>
+                                            <td th:utext="${#strings.setJoin(user.roles, ' ')}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</table>
-<form th:action="@{/logout}">
-    <input type="submit" value="Выйти"/>
-</form>
+</div>
 </body>
 </html>
