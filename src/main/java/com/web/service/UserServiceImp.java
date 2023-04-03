@@ -17,10 +17,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImp implements UserService {
     private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserServiceImp(UserRepo userRepo){
+    public UserServiceImp(UserRepo userRepo, PasswordEncoder passwordEncoder){
         this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
